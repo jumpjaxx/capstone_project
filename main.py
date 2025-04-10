@@ -6,5 +6,3 @@ screen.bgcolor("green")
 pen = turtle.Turtle()
 pen.color("white")
 pen.forward(100)
-
-screen.mainloop()
