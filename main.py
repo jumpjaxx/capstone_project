@@ -8,7 +8,7 @@ pygame.init()
 # Set up the screen
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("NASA Vacation Test")
+pygame.display.set_caption("Low-G Horizons")
 
 # Load custom image from assets folder
 # Make sure you have a file like 'earth.jpg' inside your assets folder!
