@@ -6,46 +6,47 @@ import os
 pygame.init()
 
 # Set up the window
-WIDTH, HEIGHT = 1400, 1000
+WIDTH, HEIGHT = 1018, 573
 window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Low-G Horizons")
 window.fill((255, 255, 255))
 
 pygame.display.flip()
 
-# Main loop to keep window open
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-# Quit Pygame properly
-pygame.quit()
-sys.exit()
-
-'''
-# Load custom image from assets folder
-# Make sure you have a file like 'earth.jpg' inside your assets folder!
-image_path = os.path.join("assets", "pink-cartoon-planet.jpg")
+# Load background image
 try:
-    background = pygame.image.load(image_path)
-    background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+    bg_img = pygame.image.load(os.path.join("assets", "spacescrolling.jpg")).convert()
 except:
-    print(f"Image not found at: {image_path}")
+    print("🚨 Could not load background image. Check the file path!")
     pygame.quit()
     sys.exit()
 
-# Main loop
+bg_width = bg_img.get_width()
+scroll_x = 0
+scroll_speed = 0.4
+
+# Game loop
 running = True
+clock = pygame.time.Clock()
+
 while running:
+    clock.tick(60)  # 60 FPS
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-    screen.blit(background, (0, 0))  # draw the image
-    pygame.display.flip()           # update the screen
+    # Scroll background
+    scroll_x -= scroll_speed
+    if abs(scroll_x) > bg_width:
+        scroll_x = 0
+
+    # Draw scrolling background
+    window.blit(bg_img, (scroll_x, 0))
+    window.blit(bg_img, (scroll_x + bg_width, 0))
+
+    pygame.display.flip()
+    
 
 pygame.quit()
 sys.exit()
-'''
