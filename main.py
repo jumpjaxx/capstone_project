@@ -5,11 +5,26 @@ import os
 # Initialize Pygame
 pygame.init()
 
-# Set up the screen
-WIDTH, HEIGHT = 800, 600
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+# Set up the window
+WIDTH, HEIGHT = 1400, 1000
+window = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Low-G Horizons")
+window.fill((255, 255, 255))
 
+pygame.display.flip()
+
+# Main loop to keep window open
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+# Quit Pygame properly
+pygame.quit()
+sys.exit()
+
+'''
 # Load custom image from assets folder
 # Make sure you have a file like 'earth.jpg' inside your assets folder!
 image_path = os.path.join("assets", "pink-cartoon-planet.jpg")
@@ -33,3 +48,4 @@ while running:
 
 pygame.quit()
 sys.exit()
+'''
