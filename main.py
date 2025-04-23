@@ -1,6 +1,7 @@
 import pygame
 import sys
 import os
+import load_images
 
 
 # Initialize Pygame
