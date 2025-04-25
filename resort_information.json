@@ -1,0 +1,12 @@
+{
+    "desert_planet":
+    {
+        "cost_per_night": 1350
+
+    },
+    "futuristic_planet:":
+    {  
+        "cost_per_night": 1200
+    }
+
+}
