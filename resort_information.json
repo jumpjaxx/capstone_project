@@ -1,12 +1,25 @@
 {
     "desert_planet":
     {
-        "cost_per_night": 1350
-
+        "temperature": 103.6,
+        "cost_per_night": 1350,
+        "clothing_packages": ["Shorts", "T-Shirts", " Sunglasses", "Flip Flops"],
+        "available_rooms" : 0
     },
-    "futuristic_planet:":
+    "futuristic_planet":
     {  
-        "cost_per_night": 1200
+        "temperature": 79.6,
+        "cost_per_night": 1500,
+        "clothing_packages": ["Jeans", "Jackets", "T-Shirts", "Dresses"],
+        "available_rooms" : 0
+    },
+    "cold_planet":
+    {  
+        "temperature": 19.5,
+        "cost_per_night": 1250,
+        "clothing_packages": ["Sweaters", "Sweatpants", "Jacket", "Boots"],
+        "available_rooms" : 0
     }
+
 
 }
