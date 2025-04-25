@@ -1,3 +1,5 @@
 import json
 
-data = json.load("resort_information.json")
+with open("resort_information.json", "r") as file:
+    data = json.load(file)
+    

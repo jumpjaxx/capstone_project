@@ -1,7 +1,7 @@
 {
     "desert_planet":
     {
-        "temperature": 103.6,
+        "temperature": 98.6,
         "cost_per_night": 1350,
         "clothing_packages": ["Shorts", "T-Shirts", " Sunglasses", "Flip Flops"],
         "available_rooms" : 0
