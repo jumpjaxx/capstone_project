@@ -45,11 +45,31 @@ start_btn_target_y = HEIGHT // 2
 start_btn_visible = False
 start_btn_pressed_state = False
 start_btn_clicked = False
+"""
+# Game state control
+game_state = "menu"  # could be 'menu', 'transition_to_planets', 'planet_select', 'transition_to_planetX'
+transitioning = False
+transition_offset = 0
+
+# Planet positions
+planet_radius = 50
+planet1_pos = (250, 300)
+planet2_pos = (450, 300)
+planet3_pos = (650, 300)
+
+
+def draw_planet_screen(surface, x_offset=0):
+    surface.blit(bg_img, (x_offset, 0))  # re-use bg
+    pygame.draw.circle(surface, (100, 100, 255), (x_offset + planet1_pos[0], planet1_pos[1]), planet_radius)
+    pygame.draw.circle(surface, (255, 100, 100), (x_offset + planet2_pos[0], planet2_pos[1]), planet_radius)
+    pygame.draw.circle(surface, (100, 255, 100), (x_offset + planet3_pos[0], planet3_pos[1]), planet_radius)
+"""
 
 # Main loop
 running = True
 while running:
     clock.tick(60)
+    
     current_time = pygame.time.get_ticks()
 
     for event in pygame.event.get():

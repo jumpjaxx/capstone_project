@@ -1,25 +1,35 @@
 {
-    "desert_planet":
-    {
-        "temperature": 98.6,
-        "cost_per_night": 1350,
-        "clothing_packages": ["Shorts", "T-Shirts", " Sunglasses", "Flip Flops"],
-        "available_rooms" : 0
-    },
-    "futuristic_planet":
-    {  
-        "temperature": 79.6,
-        "cost_per_night": 1500,
-        "clothing_packages": ["Jeans", "Jackets", "T-Shirts", "Dresses"],
-        "available_rooms" : 0
-    },
-    "cold_planet":
-    {  
-        "temperature": 19.5,
-        "cost_per_night": 1250,
-        "clothing_packages": ["Sweaters", "Sweatpants", "Jacket", "Boots"],
-        "available_rooms" : 0
-    }
-
-
+  "desert_planet": {
+    "temperature": 98.6,
+    "cost_per_night": 1350,
+    "clothing_packages": [
+      "Shorts",
+      "T-Shirts",
+      " Sunglasses",
+      "Flip Flops"
+    ],
+    "available_rooms": 20
+  },
+  "futuristic_planet": {
+    "temperature": 79.6,
+    "cost_per_night": 1500,
+    "clothing_packages": [
+      "Jeans",
+      "Jackets",
+      "T-Shirts",
+      "Dresses"
+    ],
+    "available_rooms": 17
+  },
+  "cold_planet": {
+    "temperature": 19.5,
+    "cost_per_night": 1250,
+    "clothing_packages": [
+      "Sweaters",
+      "Sweatpants",
+      "Jacket",
+      "Boots"
+    ],
+    "available_rooms": 11
+  }
 }
