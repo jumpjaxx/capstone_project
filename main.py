@@ -1,8 +1,7 @@
 import pygame
 import sys
 import os
-
-
+from resort_management import load_planets
 
 # Initialize Pygame
 pygame.init()
@@ -24,6 +23,9 @@ except:
     print("Could not load an image. Check the file path!")
     pygame.quit()
     sys.exit()
+    
+    
+planets = load_planets()
 
 # Optional: Scale button smaller
 start_btn_idle = pygame.transform.scale(start_btn_idle, (200, 80))
@@ -46,29 +48,78 @@ start_btn_visible = False
 start_btn_pressed_state = False
 start_btn_clicked = False
 
+# Game state control
+game_state = "menu"  # could be 'menu', 'transition_to_planets', 'planet_select', 'transition_to_planetX'
+transitioning = False
+transition_offset = 0
+
+# Planet positions
+planet_radius = 50
+planet1_pos = (250, 300)
+planet2_pos = (450, 300)
+planet3_pos = (650, 300)
+
+
+def draw_planet_screen(surface, x_offset=0):
+    surface.blit(bg_img, (x_offset, 0))  # re-use bg
+    pygame.draw.circle(surface, (100, 100, 255), (x_offset + planet1_pos[0], planet1_pos[1]), planet_radius)
+    pygame.draw.circle(surface, (255, 100, 100), (x_offset + planet2_pos[0], planet2_pos[1]), planet_radius)
+    pygame.draw.circle(surface, (100, 255, 100), (x_offset + planet3_pos[0], planet3_pos[1]), planet_radius)
+
+
 # Main loop
 running = True
 while running:
     clock.tick(60)
+    
+# Handle transitions
+if transitioning:
+    transition_offset += 20  # animation speed
+    if transition_offset >= WIDTH:
+        transitioning = False
+        transition_offset = 0
+        if game_state == "transition_to_planets":
+            game_state = "planet_select"
+        elif "transition_to_planet" in game_state:
+            game_state = "planet_screen"  # Placeholder for planet view
+
+
+
+
     current_time = pygame.time.get_ticks()
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
-        if start_btn_visible and not start_btn_clicked:
-            if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if game_state == "menu" and start_btn_visible and not start_btn_clicked:
                 mouse_x, mouse_y = event.pos
                 btn_x = (WIDTH // 2) - (start_btn_idle.get_width() // 2)
                 btn_rect = start_btn_idle.get_rect(topleft=(btn_x, start_btn_y))
                 if btn_rect.collidepoint(mouse_x, mouse_y):
                     start_btn_pressed_state = True
 
-            if event.type == pygame.MOUSEBUTTONUP:
-                if start_btn_pressed_state:
-                    print("Start button released — go to next screen!")
-                    start_btn_pressed_state = False
-                    start_btn_clicked = True  # you’ll add your screen transition here
+        if event.type == pygame.MOUSEBUTTONUP:
+            if game_state == "menu" and start_btn_pressed_state:
+                start_btn_pressed_state = False
+                start_btn_clicked = True
+                transitioning = True
+                game_state = "transition_to_planets"
+            elif game_state == "planet_select":
+                mx, my = event.pos
+                for i, (px, py) in enumerate([planet1_pos, planet2_pos, planet3_pos]):
+                    dist = ((mx - px)**2 + (my - py)**2)**0.5
+                    if dist < planet_radius:
+                        print(f"Planet {i+1} clicked!")
+                        transitioning = True
+                        game_state = f"transition_to_planet{i+1}"
+
+                        mouse_x, mouse_y = event.pos
+                        btn_x = (WIDTH // 2) - (start_btn_idle.get_width() // 2)
+                        btn_rect = start_btn_idle.get_rect(topleft=(btn_x, start_btn_y))
+                        if btn_rect.collidepoint(mouse_x, mouse_y):
+                            start_btn_pressed_state = True
 
     # Animate logo
     if current_time - start_time > 1000:
@@ -91,20 +142,31 @@ while running:
         scroll_x = 0
 
     # Draw everything
-    window.blit(bg_img, (scroll_x, 0))
-    window.blit(bg_img, (scroll_x + bg_width, 0))
+# Draw based on game state and transition
+if game_state in ["menu", "transition_to_planets"]:
+    x_offset = -transition_offset
+    window.blit(bg_img, (x_offset + scroll_x, 0))
+    window.blit(bg_img, (x_offset + scroll_x + bg_width, 0))
 
-    # Draw logo
     if current_time - start_time > 1000:
-        window.blit(logo_img, (WIDTH // 2 - logo_img.get_width() // 2 + 30, logo_y))
+        window.blit(logo_img, (x_offset + WIDTH // 2 - logo_img.get_width() // 2 + 30, logo_y))
 
-    # Draw button
     if start_btn_visible:
         btn_x = (WIDTH // 2) - (start_btn_idle.get_width() // 2)
         current_btn_img = start_btn_pressed if start_btn_pressed_state else start_btn_idle
-        window.blit(current_btn_img, (btn_x, start_btn_y))
+        window.blit(current_btn_img, (x_offset + btn_x, start_btn_y))
 
-    pygame.display.flip()
+if game_state in ["planet_select", "transition_to_planets"]:
+    draw_planet_screen(window, WIDTH - transition_offset)
+
+if game_state == "planet_screen":
+    window.fill((0, 0, 0))
+    font = pygame.font.SysFont(None, 60)
+    text = font.render("Planet Screen!", True, (255, 255, 255))
+    window.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
+
+pygame.display.flip()
+
 
 # Quit
 pygame.quit()
