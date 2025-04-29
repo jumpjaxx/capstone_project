@@ -14,15 +14,15 @@ clock = pygame.time.Clock()
 
 # Load images
 try:
-    bg_img = pygame.image.load(os.path.join("assets", "spacescrolling.jpg")).convert()
-    logo_img = pygame.image.load(os.path.join("assets", "Low - G Horizon.svg")).convert_alpha()
-    start_btn_idle = pygame.image.load(os.path.join("assets", "start_button.png")).convert_alpha()
-    start_btn_pressed = pygame.image.load(os.path.join("assets", "pushed_start.png")).convert_alpha()
+    bg_img = pygame.image.load(os.path.join("assets", "misc", "spacescrolling.jpg")).convert_alpha()
+    logo_img = pygame.image.load(os.path.join("assets", "misc", "Low - G Horizon.svg")).convert_alpha()
+    start_btn_idle = pygame.image.load(os.path.join("assets", "misc", "start_button.png")).convert_alpha()
+    start_btn_pressed = pygame.image.load(os.path.join("assets", "misc", "pushed_start.png")).convert_alpha()
 
     # Load planet images
-    planet1_img = pygame.image.load(os.path.join("assets", "hot-color-planet.png")).convert_alpha()
-    planet2_img = pygame.image.load(os.path.join("assets", "hot-planet.png")).convert_alpha()
-    planet3_img = pygame.image.load(os.path.join("assets", "planet_cold.png")).convert_alpha()
+    planet1_img = pygame.image.load(os.path.join("assets", "planets", "hot-color-planet.png")).convert_alpha()
+    planet2_img = pygame.image.load(os.path.join("assets", "planets", "new_hot_planets.png")).convert_alpha()
+    planet3_img = pygame.image.load(os.path.join("assets", "planets", "new_futuristic_planet.png")).convert_alpha()
 
 except Exception as e:
     print("Could not load an image:", e)
