@@ -37,7 +37,7 @@ start_btn_idle = pygame.transform.scale(start_btn_idle, (200, 80))
 start_btn_pressed = pygame.transform.scale(start_btn_pressed, (200, 80))
 
 # Optional: Scale planet images
-planet_size = (100, 100)
+planet_size = (180, 180)
 planet1_img = pygame.transform.scale(planet1_img, planet_size)
 planet2_img = pygame.transform.scale(planet2_img, planet_size)
 planet3_img = pygame.transform.scale(planet3_img, planet_size)
