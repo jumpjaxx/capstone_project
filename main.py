@@ -69,7 +69,7 @@ transition_offset = 0
 planet1_pos = (200, 150)                # Top-left
 planet2_pos = (WIDTH // 2, 450)         # Middle-bottom
 planet3_pos = (WIDTH - 200, 150)        # Top-right
-planet_radius = 75
+planet_radius = 100
 
 planets_info = [
     (planet1_img, planet1_pos),
