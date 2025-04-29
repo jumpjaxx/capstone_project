@@ -65,10 +65,11 @@ transitioning = False
 transition_offset = 0
 
 # Planet positions
-planet1_pos = (250, 300)
-planet2_pos = (450, 300)
-planet3_pos = (650, 300)
-planet_radius = 50
+# Repositioned planet positions
+planet1_pos = (200, 150)                # Top-left
+planet2_pos = (WIDTH // 2, 450)         # Middle-bottom
+planet3_pos = (WIDTH - 200, 150)        # Top-right
+planet_radius = 75
 
 planets_info = [
     (planet1_img, planet1_pos),
@@ -77,19 +78,19 @@ planets_info = [
 ]
 
 def draw_planet_screen(surface, x_offset=0):
-    surface.blit(bg_img, (x_offset, 0))  # Re-use background
+    surface.blit(bg_img, (x_offset, 0))  # Background reuse
 
     mouse_x, mouse_y = pygame.mouse.get_pos()
 
     for img, (px, py) in planets_info:
-        planet_rect = img.get_rect(center=(x_offset + px, py))
+        planet_rect = img.get_rect(center=(x_offset + px, py))  # Always define first
 
         # Check if mouse is hovering
         if planet_rect.collidepoint(mouse_x, mouse_y):
-            # Draw a glow effect (simple white circle behind)
             pygame.draw.circle(surface, (255, 255, 255), (x_offset + px, py), planet_radius + 10)
-        
+
         surface.blit(img, planet_rect)
+
 
 # Main loop
 running = True
@@ -160,10 +161,9 @@ while running:
     window.fill((0, 0, 0))
 
     if game_state in ["menu", "transition_to_planets"]:
-        x_offset = -transition_offset
+        x_offset = -transition_offset if transitioning else 0
         window.blit(bg_img, (x_offset + scroll_x, 0))
         window.blit(bg_img, (x_offset + scroll_x + bg_width, 0))
-
         if current_time - start_time > 1000:
             window.blit(logo_img, (x_offset + WIDTH // 2 - logo_img.get_width() // 2 + 30, logo_y))
 
