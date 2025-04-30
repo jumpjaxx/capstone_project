@@ -2,6 +2,9 @@ import pygame
 import sys
 import os
 from resort_management import load_planets  # Your custom module
+from resort_management import load_resort_data
+
+
 
 # Initialize Pygame
 pygame.init()
@@ -29,15 +32,16 @@ except Exception as e:
     pygame.quit()
     sys.exit()
 
-# Load planets (if needed)
+# Load planets 
 planets = load_planets()
+
 
 # Optional: Scale button smaller
 start_btn_idle = pygame.transform.scale(start_btn_idle, (200, 80))
 start_btn_pressed = pygame.transform.scale(start_btn_pressed, (200, 80))
 
 # Optional: Scale planet images
-planet_size = (100, 100)
+planet_size = (180, 180)
 planet1_img = pygame.transform.scale(planet1_img, planet_size)
 planet2_img = pygame.transform.scale(planet2_img, planet_size)
 planet3_img = pygame.transform.scale(planet3_img, planet_size)
@@ -69,28 +73,54 @@ transition_offset = 0
 planet1_pos = (200, 150)                # Top-left
 planet2_pos = (WIDTH // 2, 450)         # Middle-bottom
 planet3_pos = (WIDTH - 200, 150)        # Top-right
-planet_radius = 200
+planet_radius = 100
 
 planets_info = [
-    (planet1_img, planet1_pos),
-    (planet2_img, planet2_pos),
-    (planet3_img, planet3_pos)
+    (planet1_img, planet1_pos, "Blazing Exo-Resort of Untamed Luxury with Exotic Wildlife and Molten Fire Spas.", False),
+    (planet2_img, planet2_pos, "Luxurious and Furturistic Paradise with hovering gardens and rich foods.", False),
+    (planet3_img, planet3_pos, " Adventure meets elegance with anti-grav sled rides, glowing ice cavern tours, and cosmic stargazing lounges .", True)
 ]
 
-def draw_planet_screen(surface, x_offset=0):
-    surface.blit(bg_img, (x_offset, 0))  # Background reuse
+def wrap_text(text, font, max_width):
+    words = text.split()
+    lines = []
+    current_line = ""
 
-    mouse_x, mouse_y = pygame.mouse.get_pos()
+    for word in words:
+        test_line = f"{current_line} {word}".strip()
+        if font.size(test_line)[0] <= max_width:
+            current_line = test_line
+        else:
+            lines.append(current_line)
+            current_line = word
+    lines.append(current_line)
+    return lines
 
-    for img, (px, py) in planets_info:
-        planet_rect = img.get_rect(center=(x_offset + px, py))  # Always define first
+def draw_planet_detail(surface, planet_id):
+    surface.blit(bg_img, (0, 0))  # You can swap this with a specific background per planet if needed
 
-        # Check if mouse is hovering
-        if planet_rect.collidepoint(mouse_x, mouse_y):
-            pygame.draw.circle(surface, (255, 255, 255), (x_offset + px, py), planet_radius + 10)
+    font = pygame.font.SysFont("arial", 22, bold=False)
+    text = resort_data[planet_id]["description"]
+    wrapped_lines = wrap_text(text, font, WIDTH - 100)
+    
+    box_height = 160
+    box_rect = pygame.Rect(40, HEIGHT - box_height - 40, WIDTH - 80, box_height)
+    pygame.draw.rect(surface, (0, 0, 0), box_rect.inflate(8, 8), border_radius=10)
+    pygame.draw.rect(surface, (30, 30, 60), box_rect, border_radius=10)
+    pygame.draw.rect(surface, (255, 255, 255), box_rect, width=2, border_radius=10)
 
-        surface.blit(img, planet_rect)
+    for i, line in enumerate(wrapped_lines):
+        text_surf = font.render(line, True, (255, 255, 255))
+        surface.blit(text_surf, (box_rect.x + 15, box_rect.y + 15 + i * font.get_height()))
 
+    # Back and Continue buttons
+    pygame.draw.rect(surface, (80, 80, 160), (40, HEIGHT - 60, 120, 40), border_radius=10)
+    pygame.draw.rect(surface, (80, 160, 80), (WIDTH - 160, HEIGHT - 60, 120, 40), border_radius=10)
+    
+    back_text = font.render("Back", True, (255, 255, 255))
+    continue_text = font.render("Continue", True, (255, 255, 255))
+    surface.blit(back_text, (60, HEIGHT - 50))
+    surface.blit(continue_text, (WIDTH - 140, HEIGHT - 50))
 
 # Main loop
 running = True
@@ -98,7 +128,6 @@ while running:
     clock.tick(60)
     current_time = pygame.time.get_ticks()
 
-    # Handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -113,12 +142,23 @@ while running:
 
             if game_state == "planet_select":
                 mouse_x, mouse_y = event.pos
-                for i, (img, (px, py)) in enumerate(planets_info):
+                for i, (img, (px, py), _, _) in enumerate(planets_info):
                     planet_rect = img.get_rect(center=(px, py))
                     if planet_rect.collidepoint(mouse_x, mouse_y):
-                        print(f"Planet {i+1} clicked!")
+                        selected_planet = f"planet{i+1}"
                         transitioning = True
-                        game_state = f"transition_to_planet{i+1}"
+                        game_state = f"transition_to_{selected_planet}"
+
+            if game_state == "planet_detail":
+                mouse_x, mouse_y = event.pos
+
+                # Back button
+                if pygame.Rect(40, HEIGHT - 60, 120, 40).collidepoint(mouse_x, mouse_y):
+                    game_state = "planet_select"  # Go back to planet selection
+
+                # Continue button
+                elif pygame.Rect(WIDTH - 160, HEIGHT - 60, 120, 40).collidepoint(mouse_x, mouse_y):
+                    game_state = "next_screen"  # Proceed to the next screen
 
         if event.type == pygame.MOUSEBUTTONUP:
             if game_state == "menu" and start_btn_pressed_state:
@@ -126,25 +166,6 @@ while running:
                 start_btn_clicked = True
                 transitioning = True
                 game_state = "transition_to_planets"
-
-    # Animate logo
-    if current_time - start_time > 1000 and logo_y < logo_target_y:
-        logo_y += 5
-        if logo_y > logo_target_y:
-            logo_y = logo_target_y
-
-    # Animate start button
-    if current_time - start_time > 2000:
-        start_btn_visible = True
-        if start_btn_y > start_btn_target_y:
-            start_btn_y -= 5
-            if start_btn_y < start_btn_target_y:
-                start_btn_y = start_btn_target_y
-
-    # Background scroll
-    scroll_x -= scroll_speed
-    if abs(scroll_x) > bg_width:
-        scroll_x = 0
 
     # Handle transitions
     if transitioning:
@@ -160,29 +181,13 @@ while running:
     # --- DRAWING ---
     window.fill((0, 0, 0))
 
-    if game_state in ["menu", "transition_to_planets"]:
-        x_offset = -transition_offset if transitioning else 0
-        window.blit(bg_img, (x_offset + scroll_x, 0))
-        window.blit(bg_img, (x_offset + scroll_x + bg_width, 0))
-        if current_time - start_time > 1000:
-            window.blit(logo_img, (x_offset + WIDTH // 2 - logo_img.get_width() // 2 + 30, logo_y))
+    if game_state == "planet_select":
+        draw_planet_screen(window, 0)
 
-        if start_btn_visible:
-            btn_x = (WIDTH // 2) - (start_btn_idle.get_width() // 2)
-            current_btn_img = start_btn_pressed if start_btn_pressed_state else start_btn_idle
-            window.blit(current_btn_img, (x_offset + btn_x, start_btn_y))
-
-    elif game_state in ["planet_select", "transition_to_planet1", "transition_to_planet2", "transition_to_planet3"]:
-        x_offset = -transition_offset if transitioning else 0
-        draw_planet_screen(window, x_offset)
-
-    elif game_state == "planet_screen":
-        font = pygame.font.SysFont(None, 60)
-        text = font.render("Planet Screen!", True, (255, 255, 255))
-        window.blit(text, (WIDTH // 2 - text.get_width() // 2, HEIGHT // 2))
+    elif game_state == "planet_detail":
+        draw_planet_detail(window, selected_planet)
 
     pygame.display.flip()
 
-# Quit
 pygame.quit()
 sys.exit()

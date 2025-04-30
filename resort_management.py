@@ -24,3 +24,7 @@ def load_planets(json_file="resort_information.json"):
         )
         planets[planet_name] = planet
     return planets
+
+def load_resort_data():
+    with open(os.path.join("assets", "data", "resort_information.json")) as f:
+        return json.load(f)
