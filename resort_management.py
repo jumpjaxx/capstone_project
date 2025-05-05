@@ -1,3 +1,4 @@
+import os
 import json
 
 class Planet:
@@ -8,8 +9,12 @@ class Planet:
         self.clothing_packages = clothing_packages
         self.available_rooms = available_rooms
 
-# Load the data and create Planet instances
-def load_planets(json_file="resort_information.json"):
+    def __repr__(self):
+        return f"Planet(name={self.name}, temperature={self.temperature}, cost_per_night={self.cost_per_night}, clothing_packages={self.clothing_packages}, available_rooms={self.available_rooms})"
+
+
+# Load the planet data and create Planet instances
+def load_planets(json_file="assets/data/resort_information.json"):
     with open(json_file, "r") as file:
         data = json.load(file)
     
@@ -25,6 +30,9 @@ def load_planets(json_file="resort_information.json"):
         planets[planet_name] = planet
     return planets
 
-def load_resort_data():
-    with open(os.path.join("assets", "data", "resort_information.json")) as f:
+def load_resort_data(json_file="assets/data/resort_information.json"):
+    """
+    Load and return the resort information from the JSON file.
+    """
+    with open(json_file, "r") as f:
         return json.load(f)
