@@ -206,17 +206,6 @@ while running:
     elif game_state == "planet_detail":
         draw_planet_detail(selected_planet)
 
-    elif game_state == "planet_detail":
-        # Draw the planet detail screen
-        draw_planet_detail(window, selected_planet)
-
-    # Scroll the background
-    scroll_x -= scroll_speed
-    if scroll_x <= -bg_width:
-        scroll_x = 0
-    window.blit(bg_img, (scroll_x, 0))
-    window.blit(bg_img, (scroll_x + bg_width, 0))
-
     pygame.display.flip()
 
 pygame.quit()
