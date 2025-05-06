@@ -40,7 +40,7 @@ resort_imgs = [
     load_image("assets/resort_views/cold-planet.jpg")
 ]
 
-back_button = load_image("assets/misc/back_button_bigger.png")
+back_button = load_image("assets/misc/back_button_bigger.png", (420, 300))
 continue_button = load_image("assets/misc/continue_button.png", (80, 80))
 
 # Background scroll setup
@@ -50,9 +50,9 @@ scroll_speed = 0.4
 
 # Animation state
 logo_y = -logo_img.get_height()
-logo_target_y = 100 - 50  # Moved up 50px
+logo_target_y = -100 # Moved up 50px
 start_btn_y = HEIGHT + 80
-start_btn_target_y = HEIGHT // 2 + 20  # Moved down 20px
+start_btn_target_y = HEIGHT // 2 + 90  # Moved down 20px
 start_btn_visible = True
 start_btn_pressed_state = False
 
@@ -143,8 +143,8 @@ def draw_planet_detail(index):
         window.blit(text, (box_rect.x + 15, box_rect.y + 15 + i * font.get_height()))
 
     # Back: moved up and to the right
-    back_x = WIDTH - back_button.get_width() - 40
-    back_y = HEIGHT - 110
+    back_x = -110
+    back_y = 360
     window.blit(back_button, (back_x, back_y))
 
     # Continue: moved up and to the left
