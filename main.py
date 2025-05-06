@@ -41,7 +41,7 @@ resort_imgs = [
 ]
 
 back_button = load_image("assets/misc/back_button_bigger.png")
-continue_button = load_image("assets/misc/continue_button.png")
+continue_button = load_image("assets/misc/continue_button.png", (80, 80))
 
 # Background scroll setup
 bg_width = bg_img.get_width()
@@ -148,8 +148,8 @@ def draw_planet_detail(index):
     window.blit(back_button, (back_x, back_y))
 
     # Continue: moved up and to the left
-    continue_x = 40
-    continue_y = HEIGHT - 110
+    continue_x = 900
+    continue_y = 480
     window.blit(continue_button, (continue_x, continue_y))
 
 # Main loop
@@ -183,7 +183,7 @@ while running:
 
             elif game_state == "planet_detail":
                 back_x = WIDTH - back_button.get_width() - 40
-                back_y = HEIGHT - 110
+                back_y = 480
                 continue_x = 40
                 continue_y = HEIGHT - 110
 
