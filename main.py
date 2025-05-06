@@ -64,9 +64,9 @@ selected_planet = None
 planets = load_planets()
 planet_positions = [(200, 150), (WIDTH // 2, 450), (WIDTH - 200, 150)]
 planet_descriptions = [
-    "Blazing Exo-Resort of Untamed Luxury with Exotic Wildlife and Molten Fire Spas.",
+    "A lavish resort on a scorching planet, where guests indulge in exquisite alien cuisine and relax amid lush domes teeming with exotic wildlife and molten fire spas ",
     "Luxurious and Futuristic Paradise with hovering gardens and rich foods.",
-    "Adventure meets elegance with anti-grav sled rides, glowing ice cavern tours, and cosmic stargazing lounges."
+    "Carved into a glittering ice canyon beneath auroras, this high-end resort on a frozen planet offers geothermal-heated suites, encounters with majestic frost-dwelling creatures, and fine minimalist dining from rare subglacial ingredients—all."
 ]
 detail_available = [True, True, True]
 
