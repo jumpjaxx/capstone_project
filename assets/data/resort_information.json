@@ -1,20 +1,20 @@
 {
-  "desert_planet": {
-    "temperature": 0,
-    "cost_per_night": 0,
-    "clothing_packages": [],
-    "available_rooms": 19
+  "Inferno Prime": {
+    "temperature": "1200°C",
+    "cost_per_night": 700,
+    "clothing_packages": ["Fireproof Suit", "Heat-Resistant Boots"],
+    "available_rooms": 12
   },
-  "futuristic_planet": {
-    "temperature": 0,
-    "cost_per_night": 0,
-    "clothing_packages": [],
-    "available_rooms": 14
+  "Zephyros": {
+    "temperature": "22°C",
+    "cost_per_night": 550,
+    "clothing_packages": ["Casual Futuristic Wear"],
+    "available_rooms": 25
   },
-  "cold_planet": {
-    "temperature": 0,
-    "cost_per_night": 0,
-    "clothing_packages": [],
-    "available_rooms": 15
+  "Glaciera": {
+    "temperature": "-190°C",
+    "cost_per_night": 480,
+    "clothing_packages": ["Thermal Suit", "Snow Boots"],
+    "available_rooms": 18
   }
 }
